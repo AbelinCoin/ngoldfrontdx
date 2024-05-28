@@ -1,0 +1,45 @@
+.navbar {
+  background-color: #F4F4F6; /* Light gray background */
+  margin: 2rem 4rem;
+}
+
+.navbarBrand {
+  font-weight: 600; /* semibold */
+  font-size: 1.5rem;
+  color: #272727;
+}
+
+.navLink {
+  color: #272727;
+  font-weight: 600; /* semibold */
+  font-size: 1.25rem;
+  margin-left: 2.25rem; /* Padding entre los enlaces */
+}
+
+.navLink:hover {
+  color: #FFB60A; /* Blue on hover */
+}
+
+.navbarContent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.navSection {
+  display: flex;
+  align-items: center;
+}
+
+.navPrice {
+  margin-right: 1.875rem; /* Padding entre Gold live price y ConnectButton */
+  font-size: 1.125rem;
+  font-weight: 600; /* semibold */
+  color: #272727;
+}
+
+.navPriceValue {
+  color: #4FBC7B; /* Green color for the price */
+  font-size: 1.125rem;
+  font-weight: 600; /* semibold */
+}
