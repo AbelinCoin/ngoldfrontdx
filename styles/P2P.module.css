@@ -1,0 +1,222 @@
+/* styles/P2P.module.css */
+
+.p2pContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  margin-top: 3%;
+  gap: 3.5rem;
+}
+
+.p2pHeader {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #272727;
+  margin-bottom: 1rem;
+}
+
+.p2pDescription {
+  font-size: 1.25rem;
+  color: #636A7E;
+  text-align: center;
+  max-width: 800px;
+}
+
+.tableContainer {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 22px;
+}
+
+.tableHeaderLeft {
+  font-size: 16px;
+  font-weight: 600;
+  color: #636A7E;
+}
+
+.tableHeaderRight {
+  display: flex;
+  gap: 20px;
+}
+
+.tableHeaderRight button {
+  background-color: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tableHeaderRight .buyButton {
+  color: #4FBC7B;
+  background-color: #FFF;
+}
+
+.tableHeaderRight .separator {
+  font-size: 16px;
+  font-weight: 500;
+  color: #272727;
+}
+
+.tableHeaderRight .soldButton {
+  color: #272727;
+  background-color: #FFF;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 11px 22px;
+  background-color: #F9FAFB;
+  border-top: 1px solid #E4E7EC;
+  border-bottom: 1px solid #E4E7EC;
+  border-left: none;
+  border-right: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #636A7E;
+}
+
+.table td {
+  padding: 15px 22px;
+  background-color: #FFF;
+  border-top: 1px solid #E4E7EC;
+  border-bottom: 1px solid #E4E7EC;
+  border-left: none;
+  border-right: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #272727;
+  text-align: center;
+}
+
+.leftAlignedHeader {
+  text-align: left;
+}
+
+.centeredHeader {
+  text-align: center;
+}
+
+.userCell {
+  text-align: left;
+}
+
+.username {
+  font-size: 10px;
+  color: #636A7E;
+}
+
+.statusCell {
+  text-align: center;
+}
+
+.statusBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #D0D5DD;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.statusCircle {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.active {
+  background-color: #4FBC7B;
+}
+
+.inactive {
+  background-color: #E33939;
+}
+
+.disconnected {
+  background-color: #FFB60A;
+}
+
+.limit {
+  font-size: 10px;
+  color: #636A7E;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.table .buyButton {
+  padding: 6px 32px;
+  border: none;
+  background-color: #4FBC7B;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.table .sellButton {
+  padding: 6px 32px;
+  border: none;
+  background-color: #E33939;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+}
+
+.paginationNavButton {
+  padding: 8px 12px;
+  background-color: #fff;
+  border: 1px solid #D0D5DD;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #636A7E;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination .pageNumbers {
+  display: flex;
+  gap: 5px;
+}
+
+.paginationButton {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.paginationEllipsis {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+}

@@ -5,10 +5,11 @@
   padding: 32px 64px;
   margin-top: 3%;
   gap: 3.5rem;
+  flex-wrap: wrap;
 }
 
 .leftSection {
-  width: 618px; /* Ancho fijo para la sección izquierda */
+  width: 40%; /* Ancho fijo para la sección izquierda */
   text-align: left;
 }
 

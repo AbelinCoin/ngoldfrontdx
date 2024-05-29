@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css';
 import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
   const [fromValue, setFromValue] = useState<string>('');
@@ -42,9 +43,11 @@ const Home: NextPage = () => {
             <button className={`${styles.whitePaperButton}`}>
               WHITE PAPER <i className="bi bi-download"></i>
             </button>
-            <button className={`${styles.buyP2PButton}`}>
-              BUY P2P
-            </button>
+            <Link href="/p2p" passHref>
+              <button className={`${styles.buyP2PButton}`}>
+                BUY P2P
+              </button>
+            </Link>
           </div>
         </div>
         <div className={styles.rightSection}>
