@@ -1,12 +1,9 @@
-/* styles/P2P.module.css */
-
 .p2pContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 32px;
-  margin-top: 3%;
   gap: 3.5rem;
 }
 
@@ -140,15 +137,15 @@
   display: inline-block;
 }
 
-.active {
+.online {
   background-color: #4FBC7B;
 }
 
-.inactive {
+.offline {
   background-color: #E33939;
 }
 
-.disconnected {
+.none {
   background-color: #FFB60A;
 }
 
@@ -213,6 +210,8 @@
   padding: 8px 12px;
   border: none;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .paginationEllipsis {

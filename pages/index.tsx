@@ -76,7 +76,6 @@ const Home: NextPage = () => {
                   <select id="chains">
                     <option value="DOT">DOT</option>
                   </select>
-                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
               <div className={styles.subContainerFooter}>Balance: 42.069</div>
@@ -97,7 +96,6 @@ const Home: NextPage = () => {
                   <select id="chains">
                     <option value="NGOLD">NGOLD</option>
                   </select>
-                  <i className="bi bi-chevron-down"></i>
                 </div>
               </div>
               <div className={styles.subContainerFooter}>Balance: 0.00</div>
