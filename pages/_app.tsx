@@ -7,25 +7,34 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
   polygon,
-  sepolia,
 } from 'wagmi/chains';
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { getDefaultConfig, RainbowKitProvider, Chain } from '@rainbow-me/rainbowkit';
+
+const amoyTestnet = {
+  id: 80002, // Chain ID for Polygon Mumbai Testnet
+  name: 'Polygon Amoy Testnet',
+  iconUrl: 'https://polygon.technology/media-kit/matic-token-icon.png',
+  iconBackground: '#fff',
+  nativeCurrency: {
+    name: 'MATIC',
+    symbol: 'MATIC',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: { http: ['https://rpc-amoy.polygon.technology/'] },
+  },
+  blockExplorers: {
+    default: { name: 'Polygonscan', url: 'https://amoy.polygonscan.com/' },
+  }
+} as const satisfies Chain;
 
 const config = getDefaultConfig({
   appName: 'RainbowKit App',
   projectId: 'YOUR_PROJECT_ID',
   chains: [
-    mainnet,
     polygon,
-    optimism,
-    arbitrum,
-    base,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
+    amoyTestnet,
   ],
   ssr: true,
 });

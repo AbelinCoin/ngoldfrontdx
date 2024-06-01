@@ -4,7 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import styles from '../styles/Navbar.module.css';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  goldValue: number;
+}
+
+
+
+const Navbar: React.FC<NavbarProps> = ({goldValue}) => {
   return (
     <nav className={`navbar navbar-expand-lg navbar-light ${styles.navbar}`}>
       <div className="container-fluid">
@@ -36,7 +42,7 @@ const Navbar: React.FC = () => {
           </div>
           <div className={styles.navSection}>
             <span className={styles.navPrice}>
-              Gold live price: <span className={styles.navPriceValue}>77.99$</span>
+              Gold live price: <span className={styles.navPriceValue}>${goldValue}</span>
             </span>
             <ConnectButton />
           </div>
