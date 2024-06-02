@@ -11,6 +11,7 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
   const [price, setPrice] = useState('');
   const [minLimit, setMinLimit] = useState('');
   const [maxLimit, setMaxLimit] = useState('');
+  const [isBuySelected, setIsBuySelected] = useState(true);
 
   if (!show) {
     return null;
@@ -32,6 +33,16 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
     setMaxLimit(e.target.value);
   };
 
+  const handleBuyClick = () => {
+    setIsBuySelected(true);
+  };
+
+  const handleSellClick = () => {
+    setIsBuySelected(false);
+  };
+
+  const isFormValid = amount !== '' && price !== '' && minLimit !== '' && maxLimit !== '';
+
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
@@ -43,9 +54,19 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
           <div className={styles.contentForm}>
             <span className={styles.formLabel}>I want to</span>
             <div className={styles.containerButtons}>
-              <button className={styles.buyButton}>Buy</button>
+              <button
+                className={`${styles.buyButton} ${isBuySelected ? '' : styles.inactiveButton}`}
+                onClick={handleBuyClick}
+              >
+                Buy
+              </button>
               <span className={styles.separator}>|</span>
-              <button className={styles.soldButton}>Sell</button>
+              <button
+                className={`${styles.soldButton} ${isBuySelected ? styles.inactiveButton : ''}`}
+                onClick={handleSellClick}
+              >
+                Sell
+              </button>
             </div>
           </div>
           <div className={styles.contentForm}>
@@ -101,7 +122,7 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
               <div className={styles.inputLimit}>
                 <input
                   type="number"
-                  placeholder="0.00"
+                  placeholder="0"
                   className={styles.inputField}
                   value={minLimit}
                   onChange={handleMinLimitChange}
@@ -110,7 +131,7 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
               <div className={styles.inputLimit}>
                 <input
                   type="number"
-                  placeholder="0.00"
+                  placeholder="0"
                   className={styles.inputField}
                   value={maxLimit}
                   onChange={handleMaxLimitChange}
@@ -121,20 +142,25 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
           <div className={styles.footerContent}>
             <div className={styles.descriptionContent}>
               <span className={styles.descriptionContentlabel}>Your price:</span>
-              <span>$0.00</span>
+              <span className={styles.dynamicText}>{price !== '' ? `$${price}` : '$0.00'}</span>
             </div>
             <div className={styles.descriptionContent}>
               <span className={styles.descriptionContentlabel}>Asset Amount</span>
-              <span>$0.00</span>
+              <span className={styles.dynamicText}>{amount !== '' ? `$${amount}` : '$0.00'}</span>
             </div>
             <div className={styles.descriptionContent}>
               <span className={styles.descriptionContentlabel}>Your limit:</span>
-              <span>0 - 0</span>
+              <span className={styles.dynamicText}>{minLimit !== '' || maxLimit !== '' ? `${minLimit} - ${maxLimit}` : '0 - 0'}</span>
             </div>
           </div>
         </div>
         <div className={styles.footerContainer}>
-          <button className={styles.postOrderButton}>Post Order</button>
+          <button
+            className={`${styles.postOrderButton} ${isFormValid ? (isBuySelected ? styles.buyActiveButton : styles.sellActiveButton) : ''}`}
+            disabled={!isFormValid}
+          >
+            Post Order
+          </button>
         </div>
       </div>
     </div>

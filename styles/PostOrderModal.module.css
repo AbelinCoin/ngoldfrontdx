@@ -84,7 +84,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: #FFF;
-  background-color: #AFB4C0;
+  background-color: #E33939;
   border: none;
   border-radius: 4px;
   padding: 8px 32px;
@@ -119,10 +119,14 @@
 
 .inputField {
   font-size: 0.9375rem;
-  color: #AFB4C0;
+  color: #272727;
   background: none;
   border: none;
   width: 100%;
+}
+
+.inputField:focus {
+  outline: none;
 }
 
 .containerInputFooterBalance {
@@ -197,6 +201,10 @@
   padding: 0px;
 }
 
+.dynamicText {
+  color: #272727;
+}
+
 .footerContainer {
   display: flex;
   justify-content: center;
@@ -213,4 +221,22 @@
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.postOrderButton:disabled {
+  cursor: not-allowed;
+}
+
+.buyActiveButton {
+  background-color: #4FBC7B;
+  color: #FFF;
+}
+
+.sellActiveButton {
+  background-color: #E33939;
+  color: #FFF;
+}
+
+.inactiveButton {
+  background-color: #AFB4C0;
 }
