@@ -43,9 +43,9 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
           <div className={styles.contentForm}>
             <span className={styles.formLabel}>I want to</span>
             <div className={styles.containerButtons}>
-              <button className={styles.buyButton}>BUY</button>
+              <button className={styles.buyButton}>Buy</button>
               <span className={styles.separator}>|</span>
-              <button className={styles.soldButton}>Sold</button>
+              <button className={styles.soldButton}>Sell</button>
             </div>
           </div>
           <div className={styles.contentForm}>
@@ -53,7 +53,7 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
             <div className={styles.containerInput}>
               <div className={styles.containerInputAmount}>
                 <div className={styles.inputRow}>
-                  <span>$</span>
+                  <span className={styles.descriptionContentspan}>$</span>
                   <input
                     type="number"
                     placeholder="0.00"
@@ -63,8 +63,8 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
                   />
                 </div>
                 <select className={styles.selectField}>
-                  <option value="USDT">USDT</option>
                   <option value="NGOLD">NGOLD</option>
+                  <option value="USDT">USDT</option>
                 </select>
               </div>
               <div className={styles.containerInputFooter}>
@@ -81,7 +81,7 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
             <div className={styles.containerInput}>
               <div className={styles.containerInputAmount}>
                 <div className={styles.inputRow}>
-                  <span>$</span>
+                  <span className={styles.descriptionContentspan}>$</span>
                   <input
                     type="number"
                     placeholder="0.00"
@@ -94,9 +94,8 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
             </div>
           </div>
           <div className={styles.contentForm}>
-            <div className={styles.contentForm}>
+            <div className={styles.contentFormlimit}>
               <span className={styles.formLabel}>Set a limit order</span>
-              <span className={styles.formSubLabel}>Min - Max</span>
             </div>
             <div className={styles.containerInputs}>
               <div className={styles.inputLimit}>
@@ -121,15 +120,15 @@ const PostOrderModal: React.FC<PostOrderModalProps> = ({ show, onClose }) => {
           </div>
           <div className={styles.footerContent}>
             <div className={styles.descriptionContent}>
-              <span>Your price:</span>
+              <span className={styles.descriptionContentlabel}>Your price:</span>
               <span>$0.00</span>
             </div>
             <div className={styles.descriptionContent}>
-              <span>Asset Amount</span>
+              <span className={styles.descriptionContentlabel}>Asset Amount</span>
               <span>$0.00</span>
             </div>
             <div className={styles.descriptionContent}>
-              <span>Your limit:</span>
+              <span className={styles.descriptionContentlabel}>Your limit:</span>
               <span>0 - 0</span>
             </div>
           </div>
