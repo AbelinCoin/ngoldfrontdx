@@ -11,117 +11,100 @@ import useContract from '../hooks/useContract';
 import usdtContractABI from '../hooks/utils/usdt.json'
 import { useAccount } from 'wagmi';
 
-
 const Home: NextPage = () => {
   const [fromValue, setFromValue] = useState<string>('');
   const [toValue, setToValue] = useState<string>('');
   const [goldValue, setGoldValue] = useState<number>(1);
   const [tokenPrice, setTokenPrice] = useState<number | string>(1);
-  const [exchangeRate, setExchangeRate]= useState<number|null>(null);
+  const [exchangeRate, setExchangeRate] = useState<number|null>(null);
+  const [walletBalance, setWalletBalance] = useState<string>('0.00'); // Estado para el balance de la wallet
 
   const { address } = useAccount();
+  const { getAvailableBalance, buyTokensFromP2P, web3, contract } = useContract();
+  const [balance, setBalance] = useState<string | null>(null);
 
-    //This JSON will be unnecesary after the API called is succesfully made
-    const JSONtest = {
-      "timestamp":1717178838,
-      "metal":"XAU",
-      "currency":"USD",
-      "exchange":"FOREXCOM",
-      "symbol":"FOREXCOM:XAUUSD",
-      "prev_close_price":2343.2,
-      "open_price":2343.2,
-      "low_price":2324.025,
-      "high_price":2359.74,
-      "open_time":1717113600,
-      "price":2325.65,
-      "ch":-17.55,
-      "chp":-0.75,
-      "ask":2326.09,
-      "bid":2325.46,
-      "price_gram_24k":74.7714,
-      "price_gram_22k":68.5404,
-      "price_gram_21k":65.425,
-      "price_gram_20k":62.3095,
-      "price_gram_18k":56.0785,
-      "price_gram_16k":49.8476,
-      "price_gram_14k":43.6166,
-      "price_gram_10k":31.1547,
-      }
+  //This JSON will be innecesary after the API called is succesfully made
+  const JSONtest = {
+    "timestamp":1717178838,
+    "metal":"XAU",
+    "currency":"USD",
+    "exchange":"FOREXCOM",
+    "symbol":"FOREXCOM:XAUUSD",
+    "prev_close_price":2343.2,
+    "open_price":2343.2,
+    "low_price":2324.025,
+    "high_price":2359.74,
+    "open_time":1717113600,
+    "price":2325.65,
+    "ch":-17.55,
+    "chp":-0.75,
+    "ask":2326.09,
+    "bid":2325.46,
+    "price_gram_24k":74.7714,
+    "price_gram_22k":68.5404,
+    "price_gram_21k":65.425,
+    "price_gram_20k":62.3095,
+    "price_gram_18k":56.0785,
+    "price_gram_16k":49.8476,
+    "price_gram_14k":43.6166,
+    "price_gram_10k":31.1547,
+  }
 
   const isFormValid = fromValue.trim() !== '' && toValue.trim() !== '';
 
-  //This variable will be unnecesary after the API called is succesfully made
+  //This variable will be innecesary after the API called is succesfully made
   const priceGram24K = JSONtest.price_gram_24k;
 
-
-
   const convertionToAcceptedValue = (value:number) =>{
-      return Math.round(value * 10**9) 
-    }
-  
+    return Math.round(value * 10**9) 
+  }
 
-  useEffect( ()  => {
+  useEffect(() => {
     //TokenPrice for the backend logic
     setTokenPrice(convertionToAcceptedValue(priceGram24K));
 
-    //This Fetch for the API only functional till 100 request, a token is needed to be add at line 55
-    
-    //const apiHeaders = new Headers();
-    //apiHeaders.append("x-access-token", "TOKEN TO BE ADD");
-    //apiHeaders.append("Content-Type", "application/json");
-    
-    //const requestOptions: RequestInit = {
-    //  method: 'GET',
-    //  headers: apiHeaders,
-    //  redirect: 'follow' as RequestRedirect
-    //};
-    
-    //fetch("https://www.goldapi.io/api/XAU/USD", requestOptions)
-    //  .then((response: Response) => response.json())
-    //  .then((result: any) => {
-    //    const priceGram24k = result.price_gram_24k;
-    //    const tokenPrice = Math.round(priceGram24k * 10**9)
-    //    setGoldValue(priceGram24k)
-    //    setExchangeRate(1/priceGram24K)
-    //  })
-    //  .catch((error: any) => console.log('error', error));
-
-
-    setGoldValue(priceGram24K)
-    setExchangeRate(1/priceGram24K)
-  }, []); 
-
-    // Exchange function from Udst to Ngold
-    const handleCurrencyExchangeToNGold = (value:number) => {
-      try {
-        if (exchangeRate == null) {
-            throw new Error("Exchange rate cannot be null");
-        } else {
-            const exchangeCurrency = value * exchangeRate;
-            setToValue(exchangeCurrency.toFixed(9));
-        }
-    } catch (error) {
-        console.log(error);
-    }
-    
-    };
-    // Exchange function from Ngold to Udst
-    const handleCurrencyExchangeToUdst = (value:number) => {
-      try {
-        if (exchangeRate == null) {
-            throw new Error("Exchange rate cannot be null");
-        } else {
-          const exchangeCurrency = value / exchangeRate;
-          setFromValue(exchangeCurrency.toString())
-        }
-    } catch (error) {
-        console.log(error);
-    }
+    const fetchBalance = async () => {
+      if (web3 && address) {
+        const balance = await web3.eth.getBalance(address);
+        setWalletBalance(web3.utils.fromWei(balance, 'ether'));
+      }
     };
 
+    if (address && web3) {
+      fetchBalance();
+    }
 
-  const { getAvailableBalance, buyTokensFromP2P , web3, contract } = useContract();
-  const [balance, setBalance] = useState<string | null>(null);
+    setGoldValue(priceGram24K);
+    setExchangeRate(1 / priceGram24K);
+  }, [address, web3]);
+
+  // Exchange function from Udst to Ngold
+  const handleCurrencyExchangeToNGold = (value:number) => {
+    try {
+      if (exchangeRate == null) {
+          throw new Error("Exchange rate cannot be null");
+      } else {
+          const exchangeCurrency = value * exchangeRate;
+          setToValue(exchangeCurrency.toFixed(9));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Exchange function from Ngold to Udst
+  const handleCurrencyExchangeToUdst = (value:number) => {
+    try {
+      if (exchangeRate == null) {
+          throw new Error("Exchange rate cannot be null");
+      } else {
+        const exchangeCurrency = value / exchangeRate;
+        setFromValue(exchangeCurrency.toString())
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleButtonClick = async () => {
     try {
@@ -153,8 +136,8 @@ const Home: NextPage = () => {
         if (statusNumber === 1) {
             console.log('Transaction successful:', result.transactionHash);
             window.open(url, '_blank');
-            setFromValue('')
-            setToValue('')
+            setFromValue('');
+            setToValue('');
         } else {
             console.log('Transaction failed:', result);
             window.open(url, '_blank');
@@ -168,9 +151,9 @@ const Home: NextPage = () => {
   };
 
   const handleTest = () =>{
-    console.log(convertionToAcceptedValue(parseFloat(fromValue)))
-    console.log(tokenPrice)
-    console.log(convertionToAcceptedValue(parseFloat(toValue)))
+    console.log(convertionToAcceptedValue(parseFloat(fromValue)));
+    console.log(tokenPrice);
+    console.log(convertionToAcceptedValue(parseFloat(toValue)));
   }
 
   return (
@@ -232,12 +215,12 @@ const Home: NextPage = () => {
                 />
                 <div>
                   <Image src="/images/usdt.png" alt="Polygon" width={20} height={20} />
-                  <select id="chains">
+                  <select id="chains" disabled>
                     <option value="USDT">USDT</option>
                   </select>
                 </div>
               </div>
-              <div className={styles.subContainerFooter}>Balance: {fromValue}</div>
+              <div className={styles.subContainerFooter}>Balance: {walletBalance}</div>
             </div>
             <div className={styles.subContainer}>
               <div className={styles.subContainerHeader}>
@@ -252,12 +235,11 @@ const Home: NextPage = () => {
                 />
                 <div>
                   <Image src="/images/Ethereum.svg" alt="Ethereum" width={20} height={20} />
-                  <select id="chains">
+                  <select id="chains" disabled>
                     <option value="NGOLD">NGOLD</option>
                   </select>
                 </div>
               </div>
-              <div className={styles.subContainerFooter}>Balance: {toValue}</div>
             </div>
           </div>
           <div className={styles.priceContainer}>

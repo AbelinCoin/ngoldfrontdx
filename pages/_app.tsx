@@ -1,3 +1,5 @@
+// pages/_app.tsx
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';

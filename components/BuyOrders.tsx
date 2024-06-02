@@ -6,7 +6,7 @@ import styles from '../styles/P2P.module.css';
 
 const BuyOrders: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const rowsPerPage = 10;
+  const rowsPerPage = 8;
   const statuses = ['online', 'offline', 'none'];
   const getRandomStatus = () => statuses[Math.floor(Math.random() * statuses.length)];
 

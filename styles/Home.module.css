@@ -9,8 +9,9 @@
 }
 
 .leftSection {
-  width: 40%; /* Ancho fijo para la sección izquierda */
-  text-align: left;
+  width: 40%; 
+  text-align: center; 
+  justify-content: center;
 }
 
 .leftSection h1 {
@@ -39,6 +40,7 @@
   flex-direction: row;
   gap: 20px; /* Espacio entre los botones */
   margin-top: 20px; /* Espacio entre el párrafo y los botones */
+  justify-content: center;
 }
 
 .leftSection button {
@@ -97,6 +99,7 @@
 
 .goldPriceValue {
   color: #4FBC7B;
+  font-size: 14px; /* Tamaño de fuente ajustado */
 }
 
 .inputContainer {

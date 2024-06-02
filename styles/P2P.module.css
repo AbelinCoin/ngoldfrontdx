@@ -1,3 +1,5 @@
+/* styles/OrderModal.module.css */
+
 .p2pContainer {
   display: flex;
   flex-direction: column;
@@ -39,6 +41,8 @@
   font-size: 16px;
   font-weight: 600;
   color: #636A7E;
+  display: flex;
+  align-items: center;
 }
 
 .tableHeaderRight {
@@ -48,31 +52,37 @@
 
 .tableHeaderRight button {
   background-color: none;
-  border: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+  padding: 6px 10px;
+  align-items: center;
 }
 
 .tableHeaderRight .buyButton {
   color: #4FBC7B;
   background-color: #FFF;
+  border: none;
 }
 
 .tableHeaderRight .separator {
   font-size: 16px;
   font-weight: 500;
   color: #272727;
+  display: flex;
+  align-items: center;
 }
 
 .tableHeaderRight .soldButton {
   color: #272727;
   background-color: #FFF;
+  border: none;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  height: 602px;
 }
 
 .table th {
@@ -218,4 +228,56 @@
   display: flex;
   align-items: center;
   padding: 8px 12px;
+}
+
+.ordersContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  height: 602px;
+}
+
+.ordersHeader {
+  text-align: center;
+}
+
+.ordersTitle {
+  font-size: 36px;
+  font-weight: bold;
+  color: #272727;
+}
+
+.ordersDescription {
+  font-size: 18px;
+  font-weight: normal;
+  color: #636A7E;
+}
+
+.ordersContent {
+  text-align: center;
+}
+
+.postOrderButton {
+  background-color: #FFB60A;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px 16px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ordersButton {
+  background-color: #F4F4F6;
+  border-radius: 4px;
+  color: #636A7E;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px 16px;
 }

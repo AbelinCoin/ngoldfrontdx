@@ -1,3 +1,5 @@
+// components/Navbar.tsx
+
 import React from 'react';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,18 +26,13 @@ const Navbar: React.FC<NavbarProps> = ({goldValue}) => {
             </Link>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link href="/about" passHref legacyBehavior>
-                  <a className={`nav-link ${styles.navLink}`}>About</a>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link href="/contact" passHref legacyBehavior>
-                  <a className={`nav-link ${styles.navLink}`}>Contact</a>
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link href="/p2p" passHref legacyBehavior>
                   <a className={`nav-link ${styles.navLink}`}>P2P</a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/staking" passHref legacyBehavior>
+                  <a className={`nav-link ${styles.navLink}`}>Staking</a>
                 </Link>
               </li>
             </ul>
