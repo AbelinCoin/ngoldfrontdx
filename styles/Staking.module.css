@@ -1,0 +1,223 @@
+.main {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 42px;
+    align-items: center;
+  }
+  
+  .containerStake {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 42px 52px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 790px;
+    min-width: 700px;
+  }
+  
+  .containerStaking {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .titleStaking {
+    font-size: 34px;
+    font-weight: 600;
+    color: #272727;
+  }
+  
+  .formStaking {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .contentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .formLabel {
+    font-size: 16px;
+    font-weight: 600;
+    color: #636A7E;
+  }
+  
+  .formSubLabel {
+    font-size: 11px;
+    font-weight: 400;
+    color: #636A7E;
+  }
+  
+  .containerInput {
+    display: flex;
+    flex-direction: column;
+    background-color: #F4F4F6;
+    border-radius: 8px;
+    padding: 12px 16px;
+    gap: 2px;
+  }
+  
+  .containerInputAmount {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .inputRow {
+    display: flex;
+    gap: 0px;
+  }
+  
+  .inputField {
+    font-size: 16px;
+    color: #AFB4C0;
+    background: none;
+    border: none;
+  }
+  
+  .inputField::placeholder {
+    color: #AFB4C0;
+  }
+  
+  .containerInputFooter {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .containerInputFooterBalance {
+    display: flex;
+    gap: 0px;
+  }
+  
+  .useMaxButton {
+    font-size: 12px;
+    font-weight: 600;
+    color: #272727;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .selectField {
+    font-size: 16px;
+    color: #272727;
+    border: none;
+    background: none;
+  }
+  
+  .contentHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+  }
+  
+  .containerButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .stakeButton {
+    font-size: 16px;
+    color: #AFB4C0;
+    background-color: #F4F4F6;
+    border-radius: 8px;
+    padding: 12px 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .activeStakeButton {
+    background-color: #FFB60A;
+    color: #FFF;
+  }
+  
+  .contentFormFooter {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    padding: 0px 16px;
+  }
+  
+  .footerDetails {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .detailsLabel {
+    font-size: 12px;
+    color: #636A7E;
+  }
+  
+  .detailsValue {
+    font-size: 12px;
+    color: #636A7E;
+  }
+  
+  .stakeNgoldButton {
+    font-size: 16px;
+    color: #AFB4C0;
+    background-color: #F4F4F6;
+    border-radius: 8px;
+    padding: 12px 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .containerCopies {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    max-width: 440px;
+    min-width: 360px;
+  }
+  
+  .copyTitle {
+    font-size: 44px;
+    font-weight: bold;
+    color: #272727;
+    text-align: center;
+  }
+  
+  .containerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .copyDescription {
+    font-size: 17px;
+    color: #636A7E;
+    text-align: center;
+  }
+  
+  .buttonsContainer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .whitePaperButton {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFF;
+    background-color: #FFB60A;
+    text-align: center;
+    border-radius: 4px;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
