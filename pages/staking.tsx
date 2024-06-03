@@ -19,6 +19,8 @@ const Staking: React.FC = () => {
     setStakeType(type);
   };
 
+  const isFormComplete = amount !== '' && stakeType !== '' && stakeTime !== '';
+
   return (
     <div>
       <Navbar />
@@ -42,7 +44,7 @@ const Staking: React.FC = () => {
                           onChange={handleAmountChange}
                         />
                       </div>
-                      <select className={styles.selectField}>
+                      <select className={styles.selectField} disabled>
                         <option value="NGOLD">NGOLD</option>
                       </select>
                     </div>
@@ -51,7 +53,7 @@ const Staking: React.FC = () => {
                         <span>Balance</span>
                         <span>0.00</span>
                       </div>
-                      <button className={styles.useMaxButton}>Use Max</button>
+                      <button type="button" className={styles.useMaxButton}>Use Max</button>
                     </div>
                   </div>
                 </div>
@@ -78,6 +80,7 @@ const Staking: React.FC = () => {
                   </div>
                   <div className={styles.containerButtons}>
                     <button
+                      type="button"
                       className={`${styles.stakeButton} ${
                         stakeType === 'Flexible' ? styles.activeStakeButton : ''
                       }`}
@@ -86,6 +89,7 @@ const Staking: React.FC = () => {
                       Flexible
                     </button>
                     <button
+                      type="button"
                       className={`${styles.stakeButton} ${
                         stakeType === 'Locked' ? styles.activeStakeButton : ''
                       }`}
@@ -98,19 +102,23 @@ const Staking: React.FC = () => {
                 <div className={styles.contentFormFooter}>
                   <div className={styles.footerDetails}>
                     <span className={styles.detailsLabel}>NGOLD</span>
-                    <span className={styles.detailsValue}>$ 0.00</span>
+                    <span className={styles.detailsValue}>{amount !== '' ? `$ ${amount}` : '$ 0.00'}</span>
                   </div>
                   <div className={styles.footerDetails}>
                     <span className={styles.detailsLabel}>Time to stake</span>
-                    <span className={styles.detailsValue}>0</span>
+                    <span className={styles.detailsValue}>{stakeTime !== '' ? stakeTime : '0'}</span>
                   </div>
                   <div className={styles.footerDetails}>
                     <span className={styles.detailsLabel}>Your rewards</span>
-                    <span className={styles.detailsValue}>0%</span>
+                    <span className={styles.detailsValue}>{stakeType === 'Flexible' ? '2.5%' : '8%'}</span>
                   </div>
                 </div>
               </form>
-              <button className={styles.stakeNgoldButton}>Stake NGOLD</button>
+              <button
+                className={`${styles.stakeNgoldButton} ${isFormComplete ? styles.activeStakeNgoldButton : ''}`}
+              >
+                Stake NGOLD
+              </button>
             </div>
           </div>
           <div className={styles.containerCopies}>
