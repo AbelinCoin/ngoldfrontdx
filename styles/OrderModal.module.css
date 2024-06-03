@@ -11,186 +11,186 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-  }
-  
-  .modalContainer {
-    background-color: #fff;
-    border-radius: 9px;
-    padding: 52px 42px;
-    gap: 42px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 600px;
-  }
-  
-  .modalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .modalTitle {
-    font-size: 36px;
-    font-weight: 600;
-    color: #232323;
-  }
-  
-  .modalHeader .bi-x {
-    font-size: 24px;
-    color: #232323;
-    cursor: pointer;
-  }
-  
-  .modalContent {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .contentHeader {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .priceLabel, .orderTime {
-    font-size: 16px;
-    color: #636A7E;
-  }
-  
-  .priceValue {
-    font-size: 16px;
-    font-weight: 600;
-    color: #4FBC7B;
-  }
-  
-  .orderTimeContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .contentInput {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 16px;
-    background-color: #F4F4F6;
-    border-radius: 16px;
-  }
-  
-  .inputGroup {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .inputLeft {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .currency {
-    font-size: 18px;
-    color: #636A7E;
-  }
-  
-  .inputAmount {
-    font-size: 19px;
-    color: #272727;
-    background: none;
-    border: none;
-    outline: none;
-    width: 100px;
-  }
-  
-  .inputAmount::placeholder {
-    color: #AFB4C0;
-  }
-  
-  /* Eliminar flechas de input de tipo número */
-  .inputAmount[type=number]::-webkit-outer-spin-button,
-  .inputAmount[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-  
-  .inputAmount[type=number] {
-    -moz-appearance: textfield; /* Firefox */
-  }
-  
-  .selectContainer {
-    display: flex;
-    align-items: center;
-  }
-  
-  .select {
-    font-size: 18px;
-    color: #272727;
-    border: none;
-    background: none;
-    margin-left: 8px;
-  }
-  
-  .contentFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .balanceInfo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .balanceLabel {
-    font-size: 16px;
-    color: #636A7E;
-  }
-  
-  .balanceValue {
-    font-size: 16px;
-    color: #AFB4C0;
-  }
-  
-  .useMaxButton {
-    font-size: 14px;
-    font-weight: 600;
-    color: #272727;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .detailsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .detailsUsd, .detailsAmount {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .detailsLabel {
-    font-size: 14px;
-    color: #636A7E;
-  }
-  
-  .detailsValue {
-    font-size: 14px;
-    color: #272727;
-  }
-  
-  .actionButton {
-    font-size: 18px;
-    font-weight: 600;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
+}
+
+.modalContainer {
+  background-color: #fff;
+  border-radius: 9px;
+  padding: 52px 42px;
+  gap: 42px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalTitle {
+  font-size: 36px;
+  font-weight: 600;
+  color: #232323;
+}
+
+.modalHeader .bi-x {
+  font-size: 24px;
+  color: #232323;
+  cursor: pointer;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceLabel, .orderTime {
+  font-size: 16px;
+  color: #636A7E;
+}
+
+.priceValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4FBC7B;
+}
+
+.orderTimeContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contentInput {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background-color: #F4F4F6;
+  border-radius: 16px;
+}
+
+.inputGroup {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.currency {
+  font-size: 18px;
+  color: #636A7E;
+}
+
+.inputAmount {
+  font-size: 19px;
+  color: #272727;
+  background: none;
+  border: none;
+  outline: none;
+  width: 100px;
+}
+
+.inputAmount::placeholder {
+  color: #AFB4C0;
+}
+
+/* Eliminar flechas de input de tipo número */
+.inputAmount[type=number]::-webkit-outer-spin-button,
+.inputAmount[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputAmount[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.selectContainer {
+  display: flex;
+  align-items: center;
+}
+
+.select {
+  font-size: 18px;
+  color: #272727;
+  border: none;
+  background: none;
+  margin-left: 8px;
+}
+
+.contentFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.balanceInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.balanceLabel {
+  font-size: 16px;
+  color: #636A7E;
+}
+
+.balanceValue {
+  font-size: 16px;
+  color: #AFB4C0;
+}
+
+.useMaxButton {
+  font-size: 14px;
+  font-weight: 600;
+  color: #272727;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailsUsd, .detailsAmount {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailsLabel {
+  font-size: 14px;
+  color: #636A7E;
+}
+
+.detailsValue {
+  font-size: 14px;
+  color: #272727;
+}
+
+.actionButton {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
   

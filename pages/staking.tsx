@@ -6,6 +6,10 @@ const Staking: React.FC = () => {
   const [amount, setAmount] = useState('');
   const [stakeTime, setStakeTime] = useState('10 DAYS');
   const [stakeType, setStakeType] = useState('Flexible');
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 8;
+  const totalRows = 0; // Change this to the total number of stake entries
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(e.target.value);
@@ -21,6 +25,42 @@ const Staking: React.FC = () => {
 
   const isFormComplete = amount !== '' && stakeType !== '' && stakeTime !== '';
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (i <= 3 || i > totalPages - 3 || (i >= currentPage - 1 && i <= currentPage + 1)) {
+        pages.push(
+          <button
+            key={i}
+            className={styles.paginationButton}
+            style={{
+              backgroundColor: i === currentPage ? '#F9FAFB' : 'transparent',
+              color: i === currentPage ? '#636A7E' : '#AFB4C0',
+            }}
+            onClick={() => setCurrentPage(i)}
+          >
+            {i}
+          </button>
+        );
+      } else if (pages[pages.length - 1] !== '...') {
+        pages.push(<span key={i} className={styles.paginationEllipsis}>...</span>);
+      }
+    }
+    return pages;
+  };
+
   return (
     <div>
       <Navbar />
@@ -35,10 +75,9 @@ const Staking: React.FC = () => {
                   <div className={styles.containerInput}>
                     <div className={styles.containerInputAmount}>
                       <div className={styles.inputRow}>
-                        <span>$</span>
                         <input
                           type="number"
-                          placeholder="0.00"
+                          placeholder="$ 0.00"
                           className={styles.inputField}
                           value={amount}
                           onChange={handleAmountChange}
@@ -133,6 +172,28 @@ const Staking: React.FC = () => {
               <div className={styles.buttonsContainer}>
                 <button className={styles.whitePaperButton}>WHITE PAPER</button>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.container}>
+          <div className={styles.tableContainer}>
+            <div className={styles.tableHeader}>
+              <span>YOUR NGOLD STAKE</span>
+            </div>
+            <div className={styles.tableContent}>
+              <h2>You do not have any stake.</h2>
+              <span>Stake your NGOLD now without commissions</span>
+            </div>
+            <div className={styles.tableFooter}>
+              <button onClick={handlePreviousPage} className={styles.paginationNavButton}>
+                <i className="bi bi-arrow-left-short"></i> Previous
+              </button>
+              <div className={styles.pageNumbers}>
+                {renderPagination()}
+              </div>
+              <button onClick={handleNextPage} className={styles.paginationNavButton}>
+                Next <i className="bi bi-arrow-right-short"></i>
+              </button>
             </div>
           </div>
         </div>
