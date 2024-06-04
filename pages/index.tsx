@@ -17,10 +17,13 @@ const Home: NextPage = () => {
   const [tokenPrice, setTokenPrice] = useState<number | string>(1);
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   const [walletBalance, setWalletBalance] = useState<string>('0.00');
+  const [dexBalance, setDexBalance] = useState('0');
+  const [usdtBalance, setUsdtBalance] = useState('0');
   const [isBuying, setIsBuying] = useState<boolean>(true); // Estado para el tipo de operación
+  const [fetched, setFetched] = useState(false);
 
   const { address } = useAccount();
-  const { getAvailableBalance, buyTokensFromP2P, web3, contract } = useContract();
+  const { getAvailableBalance, buyTokensFromDex, sellTokensToDex, web3, contract, getDexBalance, getUSDTBalance} = useContract();
   const [balance, setBalance] = useState<string | null>(null);
 
   const JSONtest = {
@@ -53,6 +56,11 @@ const Home: NextPage = () => {
 
   const priceGram24K = JSONtest.price_gram_24k;
 
+
+  // This value have to be calculated in the useEffect where the API to the goldValue is called
+  const exchangeTax = JSONtest.price_gram_24k * 0.05;
+  const goldValueTaxed = priceGram24K + exchangeTax;
+
   const convertionToAcceptedValue = (value: number) => {
     return Math.round(value * 10 ** 9);
   };
@@ -72,7 +80,7 @@ const Home: NextPage = () => {
     }
 
     setGoldValue(priceGram24K);
-    setExchangeRate(1 / priceGram24K);
+    setExchangeRate(1 / goldValueTaxed);
   }, [address, web3]);
 
   const handleCurrencyExchangeToNGold = (value: number) => {
@@ -80,8 +88,14 @@ const Home: NextPage = () => {
       if (exchangeRate == null) {
         throw new Error("Exchange rate cannot be null");
       } else {
-        const exchangeCurrency = value * exchangeRate;
-        setToValue(exchangeCurrency.toFixed(9));
+        if(isBuying){
+          const exchangeCurrency = value * exchangeRate;
+          setToValue(exchangeCurrency.toFixed(9));
+        }else{
+          const exchangeCurrency = value / exchangeRate;
+          setToValue(exchangeCurrency.toFixed(9));
+        }
+        
       }
     } catch (error) {
       console.log(error);
@@ -93,8 +107,14 @@ const Home: NextPage = () => {
       if (exchangeRate == null) {
         throw new Error("Exchange rate cannot be null");
       } else {
-        const exchangeCurrency = value / exchangeRate;
-        setFromValue(exchangeCurrency.toString());
+        if(isBuying){
+          const exchangeCurrency = value / exchangeRate;
+          setFromValue(exchangeCurrency.toString());
+        }else{
+          const exchangeCurrency = value * exchangeRate;
+          setFromValue(exchangeCurrency.toString());
+        }
+        
       }
     } catch (error) {
       console.log(error);
@@ -110,45 +130,104 @@ const Home: NextPage = () => {
     }
   };
 
-  const usdtContractAddress = '0x1ca23a42D0c095748ebc43C3fdC219170181CD55';
-  const priceTokenPitufo = tokenPrice;
-
-  const handleApproveAndBuyTokens = async () => {
-    if (web3 && contract && address) {
+  const fetchBalances = async () => {
+    if (address && contract && !fetched) {
       try {
-        const usdtContract = new web3.eth.Contract(usdtContractABI, usdtContractAddress);
-        await usdtContract.methods.approve(contract.options.address, convertionToAcceptedValue(parseFloat(fromValue))).send({ from: address });
+        const dexBal = await getDexBalance(address);
+        const dexBalInEther = dexBal / (10 ** 9);
+        setDexBalance(dexBalInEther);
 
-        const result = await buyTokensFromP2P(convertionToAcceptedValue(parseFloat(toValue)), usdtContractAddress, convertionToAcceptedValue(parseFloat(fromValue)));
-        const status = result.status;
-        const statusNumber = Number(status);
-        let url = `https://amoy.polygonscan.com/tx/${result.transactionHash}`;
-
-        if (statusNumber === 1) {
-          console.log('Transaction successful:', result.transactionHash);
-          window.open(url, '_blank');
-          setFromValue('');
-          setToValue('');
-        } else {
-          console.log('Transaction failed:', result);
-          window.open(url, '_blank');
-        }
+        const usdtBal = await getUSDTBalance(address);
+        const usdtBalInEther = usdtBal / (10 ** 9); // Asumiendo que USDT tiene 18 decimales
+        setUsdtBalance(usdtBalInEther);
+        setFetched(true)
       } catch (error) {
-        console.error('Error approving tokens and buying tokens from P2P', error);
+        console.error('Error fetching balances:', error);
       }
-    } else {
-      throw new Error('Web3, contract or account not available');
     }
   };
 
-  const handleTest = () => {
-    console.log(convertionToAcceptedValue(parseFloat(fromValue)));
-    console.log(tokenPrice);
-    console.log(convertionToAcceptedValue(parseFloat(toValue)));
+  const fetchBalancesAux = async () => {
+    try {
+      const dexBal = await getDexBalance(address);
+      const dexBalInEther = dexBal / (10 ** 9);
+      setDexBalance(dexBalInEther);
+
+      const usdtBal = await getUSDTBalance(address);
+      const usdtBalInEther = usdtBal / (10 ** 9); // Asumiendo que USDT tiene 18 decimales
+      setUsdtBalance(usdtBalInEther);
+      setFetched(true)
+    } catch (error) {
+      console.error('Error fetching balances:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBalances();
+  }, [contract, address, fetched]);
+
+  const usdtContractAddress = '0x66f45494f187Cf21cA5b6d0586e934EC38ff0bBB';
+
+  const handleApproveAndBuyTokens = async () => {
+    if(isBuying){
+      if (web3 && contract && address) {
+        try {
+          const usdtContract = new web3.eth.Contract(usdtContractABI, usdtContractAddress);
+          await usdtContract.methods.approve(contract.options.address, convertionToAcceptedValue(parseFloat(fromValue))).send({ from: address });
+  
+          const result = await buyTokensFromDex(convertionToAcceptedValue(parseFloat(toValue)), usdtContractAddress, convertionToAcceptedValue(parseFloat(fromValue)));
+          const status = result.status;
+          const statusNumber = Number(status);
+          fetchBalancesAux()
+          let url = `https://amoy.polygonscan.com/tx/${result.transactionHash}`;
+  
+          if (statusNumber === 1) {
+            console.log('Transaction successful:', result.transactionHash);
+            window.open(url, '_blank');
+            setFromValue('');
+            setToValue('');
+          } else {
+            console.log('Transaction failed:', result);
+            window.open(url, '_blank');
+          }
+        } catch (error) {
+          console.error('Error approving tokens and buying tokens from P2P', error);
+        }
+      } else {
+        throw new Error('Web3, contract or account not available');
+      }
+    }else{
+      if (web3 && contract && address) {
+        try {
+          const tokenAmount = convertionToAcceptedValue(parseFloat(fromValue));
+          const priceTokenPitufo = convertionToAcceptedValue(parseFloat(toValue));
+          const result = await sellTokensToDex(tokenAmount, priceTokenPitufo, usdtContractAddress);
+          const status = result.status;
+          const statusNumber = Number(status);
+          let url = `https://amoy.polygonscan.com/tx/${result.transactionHash}`;
+          fetchBalancesAux()
+          if (statusNumber === 1) {
+            console.log('Transaction successful:', result.transactionHash);
+            window.open(url, '_blank');
+            setFromValue('');
+            setToValue('');
+          } else {
+            console.log('Transaction failed:', result);
+            window.open(url, '_blank');
+          }
+        } catch (error) {
+          console.error('Error approving tokens and buying tokens from P2P', error);
+        }
+      } else {
+        throw new Error('Web3, contract or account not available');
+      }
+    }
   };
 
   const handleSwitch = () => {
     setIsBuying(!isBuying);
+    setFromValue('')
+    setToValue('')
   };
 
   return (
@@ -184,12 +263,18 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.rightSection}>
           <div>
-            <h2>Buy NGOLD</h2>
+            {!isBuying ? <h2>Sell Gold</h2> : <h2>Buy Gold</h2> }
             <span>
               <span className={styles.goldPriceLabel}>London Gold Fix 1 gram:</span>{' '}
               <span className={styles.goldPriceValue}>${goldValue}</span>
             </span>
+            <br />
+            <span>
+              <span className={styles.goldPriceLabel}>London Gold Fix 1 gram with the exchange Tax applied:</span>{' '}
+              <span className={styles.goldPriceValue}>${goldValueTaxed}</span>
+            </span>
           </div>
+          
           <div className={styles.inputContainer}>
             <div className={styles.subContainer}>
               <div className={styles.subContainerHeader}>
@@ -204,13 +289,13 @@ const Home: NextPage = () => {
                   onChange={(e) => {handleCurrencyExchangeToNGold(parseFloat(e.target.value)) ; setFromValue(e.target.value) ; }}
                 />
                 <div>
-                  <Image src="/images/usdt.png" alt="Polygon" width={20} height={20} />
+                  {isBuying ? <Image src="/images/usdt.png" alt="Polygon" width={20} height={20} /> : <Image src="/images/Ethereum.svg" alt="Ethereum" width={20} height={20} /> }
                   <select id="chains" disabled>
                     <option value="USDT">{isBuying ? 'USDT' : 'NGOLD'}</option>
                   </select>
                 </div>
               </div>
-              <div className={styles.subContainerFooter}>Balance: {walletBalance}</div>
+              <div className={styles.subContainerFooter}>Balance: {isBuying ? usdtBalance : dexBalance}</div>
             </div>
             <div className={styles.switchButtoncontainer}>
             <button className={styles.switchButton} onClick={handleSwitch}>
@@ -226,10 +311,10 @@ const Home: NextPage = () => {
                   type="number" 
                   placeholder="0" 
                   value={toValue} 
-                  onChange={(e) => {handleCurrencyExchangeToUdst(parseFloat(e.target.value)) ;setToValue(e.target.value)}} 
+                  onChange={(e) => {handleCurrencyExchangeToUdst(parseFloat(e.target.value)) ; setToValue(e.target.value)}} 
                 />
                 <div>
-                  <Image src="/images/Ethereum.svg" alt="Ethereum" width={20} height={20} />
+                  {isBuying ? <Image src="/images/Ethereum.svg" alt="Ethereum" width={20} height={20} /> : <Image src="/images/usdt.png" alt="Polygon" width={20} height={20} /> }
                   <select id="chains" disabled>
                     <option value="NGOLD">{isBuying ? 'NGOLD' : 'USDT'}</option>
                   </select>
@@ -238,9 +323,9 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className={styles.priceContainer}>
-            <span className={styles.priceText}>Price</span>
+            <span className={styles.priceText}>Impuesto</span>
             <span className={styles.priceValue}>
-            {exchangeRate} NGOLD per USDT <i className="bi bi-arrow-repeat"></i>
+            0.5% <i className="bi bi-arrow-repeat"></i>
             </span>
           </div>
           <button 
