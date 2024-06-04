@@ -6,9 +6,8 @@ import styles from '../styles/Home.module.css';
 import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import useContract from '../hooks/useContract';
-import usdtContractABI from '../hooks/utils/usdt.json'
+import usdtContractABI from '../hooks/utils/usdt.json';
 import { useAccount } from 'wagmi';
 
 const Home: NextPage = () => {
@@ -16,51 +15,49 @@ const Home: NextPage = () => {
   const [toValue, setToValue] = useState<string>('');
   const [goldValue, setGoldValue] = useState<number>(1);
   const [tokenPrice, setTokenPrice] = useState<number | string>(1);
-  const [exchangeRate, setExchangeRate] = useState<number|null>(null);
-  const [walletBalance, setWalletBalance] = useState<string>('0.00'); // Estado para el balance de la wallet
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  const [walletBalance, setWalletBalance] = useState<string>('0.00');
+  const [isBuying, setIsBuying] = useState<boolean>(true); // Estado para el tipo de operación
 
   const { address } = useAccount();
   const { getAvailableBalance, buyTokensFromP2P, web3, contract } = useContract();
   const [balance, setBalance] = useState<string | null>(null);
 
-  //This JSON will be innecesary after the API called is succesfully made
   const JSONtest = {
-    "timestamp":1717178838,
-    "metal":"XAU",
-    "currency":"USD",
-    "exchange":"FOREXCOM",
-    "symbol":"FOREXCOM:XAUUSD",
-    "prev_close_price":2343.2,
-    "open_price":2343.2,
-    "low_price":2324.025,
-    "high_price":2359.74,
-    "open_time":1717113600,
-    "price":2325.65,
-    "ch":-17.55,
-    "chp":-0.75,
-    "ask":2326.09,
-    "bid":2325.46,
-    "price_gram_24k":74.7714,
-    "price_gram_22k":68.5404,
-    "price_gram_21k":65.425,
-    "price_gram_20k":62.3095,
-    "price_gram_18k":56.0785,
-    "price_gram_16k":49.8476,
-    "price_gram_14k":43.6166,
-    "price_gram_10k":31.1547,
-  }
+    "timestamp": 1717178838,
+    "metal": "XAU",
+    "currency": "USD",
+    "exchange": "FOREXCOM",
+    "symbol": "FOREXCOM:XAUUSD",
+    "prev_close_price": 2343.2,
+    "open_price": 2343.2,
+    "low_price": 2324.025,
+    "high_price": 2359.74,
+    "open_time": 1717113600,
+    "price": 2325.65,
+    "ch": -17.55,
+    "chp": -0.75,
+    "ask": 2326.09,
+    "bid": 2325.46,
+    "price_gram_24k": 74.7714,
+    "price_gram_22k": 68.5404,
+    "price_gram_21k": 65.425,
+    "price_gram_20k": 62.3095,
+    "price_gram_18k": 56.0785,
+    "price_gram_16k": 49.8476,
+    "price_gram_14k": 43.6166,
+    "price_gram_10k": 31.1547,
+  };
 
   const isFormValid = fromValue.trim() !== '' && toValue.trim() !== '';
 
-  //This variable will be innecesary after the API called is succesfully made
   const priceGram24K = JSONtest.price_gram_24k;
 
-  const convertionToAcceptedValue = (value:number) =>{
-    return Math.round(value * 10**9) 
-  }
+  const convertionToAcceptedValue = (value: number) => {
+    return Math.round(value * 10 ** 9);
+  };
 
   useEffect(() => {
-    //TokenPrice for the backend logic
     setTokenPrice(convertionToAcceptedValue(priceGram24K));
 
     const fetchBalance = async () => {
@@ -78,28 +75,26 @@ const Home: NextPage = () => {
     setExchangeRate(1 / priceGram24K);
   }, [address, web3]);
 
-  // Exchange function from Udst to Ngold
-  const handleCurrencyExchangeToNGold = (value:number) => {
+  const handleCurrencyExchangeToNGold = (value: number) => {
     try {
       if (exchangeRate == null) {
-          throw new Error("Exchange rate cannot be null");
+        throw new Error("Exchange rate cannot be null");
       } else {
-          const exchangeCurrency = value * exchangeRate;
-          setToValue(exchangeCurrency.toFixed(9));
+        const exchangeCurrency = value * exchangeRate;
+        setToValue(exchangeCurrency.toFixed(9));
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Exchange function from Ngold to Udst
-  const handleCurrencyExchangeToUdst = (value:number) => {
+  const handleCurrencyExchangeToUdst = (value: number) => {
     try {
       if (exchangeRate == null) {
-          throw new Error("Exchange rate cannot be null");
+        throw new Error("Exchange rate cannot be null");
       } else {
         const exchangeCurrency = value / exchangeRate;
-        setFromValue(exchangeCurrency.toString())
+        setFromValue(exchangeCurrency.toString());
       }
     } catch (error) {
       console.log(error);
@@ -121,26 +116,22 @@ const Home: NextPage = () => {
   const handleApproveAndBuyTokens = async () => {
     if (web3 && contract && address) {
       try {
-        // Primero, obtenemos el contrato USDT
         const usdtContract = new web3.eth.Contract(usdtContractABI, usdtContractAddress);
-
-        // Luego, aprobamos la cantidad de tokens que el contrato puede mover
         await usdtContract.methods.approve(contract.options.address, convertionToAcceptedValue(parseFloat(fromValue))).send({ from: address });
 
-        // Finalmente, compramos los tokens
         const result = await buyTokensFromP2P(convertionToAcceptedValue(parseFloat(toValue)), usdtContractAddress, convertionToAcceptedValue(parseFloat(fromValue)));
         const status = result.status;
-        const statusNumber = Number(status); // Convertimos BigInt a número
+        const statusNumber = Number(status);
         let url = `https://amoy.polygonscan.com/tx/${result.transactionHash}`;
 
         if (statusNumber === 1) {
-            console.log('Transaction successful:', result.transactionHash);
-            window.open(url, '_blank');
-            setFromValue('');
-            setToValue('');
+          console.log('Transaction successful:', result.transactionHash);
+          window.open(url, '_blank');
+          setFromValue('');
+          setToValue('');
         } else {
-            console.log('Transaction failed:', result);
-            window.open(url, '_blank');
+          console.log('Transaction failed:', result);
+          window.open(url, '_blank');
         }
       } catch (error) {
         console.error('Error approving tokens and buying tokens from P2P', error);
@@ -150,11 +141,15 @@ const Home: NextPage = () => {
     }
   };
 
-  const handleTest = () =>{
+  const handleTest = () => {
     console.log(convertionToAcceptedValue(parseFloat(fromValue)));
     console.log(tokenPrice);
     console.log(convertionToAcceptedValue(parseFloat(toValue)));
-  }
+  };
+
+  const handleSwitch = () => {
+    setIsBuying(!isBuying);
+  };
 
   return (
     <div>
@@ -185,11 +180,6 @@ const Home: NextPage = () => {
             <button className={`${styles.whitePaperButton}`}>
               WHITE PAPER <i className="bi bi-download"></i>
             </button>
-            {/* <Link href="/p2p" passHref>
-              <button className={`${styles.buyP2PButton}`}>
-                BUY P2P
-              </button>
-            </Link> */}
           </div>
         </div>
         <div className={styles.rightSection}>
@@ -216,11 +206,16 @@ const Home: NextPage = () => {
                 <div>
                   <Image src="/images/usdt.png" alt="Polygon" width={20} height={20} />
                   <select id="chains" disabled>
-                    <option value="USDT">USDT</option>
+                    <option value="USDT">{isBuying ? 'USDT' : 'NGOLD'}</option>
                   </select>
                 </div>
               </div>
               <div className={styles.subContainerFooter}>Balance: {walletBalance}</div>
+            </div>
+            <div className={styles.switchButtoncontainer}>
+            <button className={styles.switchButton} onClick={handleSwitch}>
+              <i className="bi bi-arrow-down-up"></i>
+            </button>
             </div>
             <div className={styles.subContainer}>
               <div className={styles.subContainerHeader}>
@@ -236,7 +231,7 @@ const Home: NextPage = () => {
                 <div>
                   <Image src="/images/Ethereum.svg" alt="Ethereum" width={20} height={20} />
                   <select id="chains" disabled>
-                    <option value="NGOLD">NGOLD</option>
+                    <option value="NGOLD">{isBuying ? 'NGOLD' : 'USDT'}</option>
                   </select>
                 </div>
               </div>
@@ -253,7 +248,7 @@ const Home: NextPage = () => {
             disabled={!isFormValid}
             onClick={handleApproveAndBuyTokens}
           >
-            {isFormValid ? 'BUY NGOLD' : 'Enter A Mount'}
+            {isFormValid ? (isBuying ? 'BUY NGOLD' : 'SELL NGOLD') : 'Enter A Mount'}
           </button>
         </div>
       </main>

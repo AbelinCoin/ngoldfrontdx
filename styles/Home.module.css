@@ -10,7 +10,7 @@
 
 .leftSection {
   width: 40%; 
-  text-align: center; 
+  text-align: start; 
   justify-content: center;
 }
 
@@ -40,7 +40,7 @@
   flex-direction: row;
   gap: 20px; /* Espacio entre los botones */
   margin-top: 20px; /* Espacio entre el párrafo y los botones */
-  justify-content: center;
+  justify-content: left;
 }
 
 .leftSection button {
@@ -255,4 +255,23 @@
 .buyButtonActive {
   color: #FFFFFF;
   background-color: #4FBC7B;
+}
+
+.switchButtoncontainer {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+.switchButton {
+  background-color: #FFB60A;
+  color: #FFF;
+  border: none;
+  width: 60px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 8px;
 }
