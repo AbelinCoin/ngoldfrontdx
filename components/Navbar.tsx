@@ -26,11 +26,6 @@ const Navbar: React.FC<NavbarProps> = ({goldValue}) => {
             </Link>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link href="/p2p" passHref legacyBehavior>
-                  <a className={`nav-link ${styles.navLink}`}>P2P</a>
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link href="/staking" passHref legacyBehavior>
                   <a className={`nav-link ${styles.navLink}`}>Staking</a>
                 </Link>

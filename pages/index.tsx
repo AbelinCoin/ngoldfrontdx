@@ -185,11 +185,11 @@ const Home: NextPage = () => {
             <button className={`${styles.whitePaperButton}`}>
               WHITE PAPER <i className="bi bi-download"></i>
             </button>
-            <Link href="/p2p" passHref>
+            {/* <Link href="/p2p" passHref>
               <button className={`${styles.buyP2PButton}`}>
                 BUY P2P
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className={styles.rightSection}>
